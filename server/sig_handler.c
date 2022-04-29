@@ -6,7 +6,7 @@
 /*   By: mababou <mababou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 21:03:53 by mababou           #+#    #+#             */
-/*   Updated: 2022/04/29 21:19:33 by mababou          ###   ########.fr       */
+/*   Updated: 2022/04/29 22:13:41 by mababou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,19 @@ void	get_one(int code)
 	data->msg[init_len] = '1';
 	if (init_len == 7)
 		add_char(data);
+}
+
+t_data	*get_data(int code, t_data *input)
+{
+	static t_data	*data_ptr;
+
+	if (code == 0)
+		return (data_ptr);
+	else
+	{
+		data_ptr = input;
+		input->mem_lst = 0;
+		reset_msg(input);
+		return (0);
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: mababou <mababou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 20:53:21 by mababou           #+#    #+#             */
-/*   Updated: 2022/04/29 21:17:23 by mababou          ###   ########.fr       */
+/*   Updated: 2022/04/29 22:05:08 by mababou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,4 +23,29 @@ int	ft_pow(int nb, int power)
 		power--;
 	}
 	return (res);
+}
+
+static void	ft_putchar_fd(char c, int fd)
+{
+	write(fd, &c, 1);
+}
+
+void	ft_putnbr_fd(int n, int fd)
+{
+	unsigned int	nb;
+
+	if (n < 0)
+	{
+		ft_putchar_fd('-', fd);
+		nb = -n;
+	}
+	else
+		nb = n;
+	if (nb <= 9)
+		ft_putchar_fd(nb + '0', fd);
+	else
+	{
+		ft_putnbr_fd((nb / 10), fd);
+		ft_putchar_fd((nb % 10) + '0', fd);
+	}
 }

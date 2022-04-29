@@ -6,7 +6,7 @@
 /*   By: mababou <mababou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 19:15:52 by mababou           #+#    #+#             */
-/*   Updated: 2022/04/29 21:24:56 by mababou          ###   ########.fr       */
+/*   Updated: 2022/04/29 22:21:24 by mababou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 void	reception_confirmation(int code)
 {
 	(void)code;
+	ft_putstr(1, GREEN_TXT);
 	ft_putstr(1, "The server received your message!\n");
+	ft_putstr(1, RESET_TXT);
 	exit(EXIT_SUCCESS);
 }
 
@@ -26,10 +28,15 @@ static void	send_char(int c, char *dest_pid)
 	i = 8;
 	while (i)
 	{
-		if (c % 2)
+		usleep(1);
+		if (c % 2 == 0)
+		{
 			kill(ft_atoi(dest_pid), SIGUSR1);
+		}
 		else
+		{
 			kill(ft_atoi(dest_pid), SIGUSR2);
+		}
 		c = c / 2;
 		i--;
 	}
@@ -64,17 +71,22 @@ void	send_message(char *msg, char *dest_pid)
 		if (c < 0)
 			send_char(1, dest_pid);
 		send_char(c, dest_pid);
+		i++;
 	}
 }
 
 int	main(int ac, char **av)
 {
+	int	empty;
+
 	if (ac != 3)
 		exit_error("Wrong parameters. Usage: ./client <PID> <MESSAGE>");
 	if (send_pid(getpid(), av[1]))
 		return (EXIT_FAILURE);
-	send_char(0, av[1]);
+	send_char(2, av[1]);
 	send_message(av[2], av[1]);
 	send_char(127, av[1]);
 	signal(SIGUSR1, reception_confirmation);
+	while (1)
+		(void)empty;
 }
