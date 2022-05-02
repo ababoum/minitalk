@@ -6,7 +6,7 @@
 /*   By: mababou <mababou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 21:03:53 by mababou           #+#    #+#             */
-/*   Updated: 2022/05/02 19:42:10 by mababou          ###   ########.fr       */
+/*   Updated: 2022/05/02 20:23:54 by mababou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ void	get_bit(int signum, siginfo_t *info, void *context)
 	{
 		add_char();
 	}
+	if (g_data.end == 1)
+		process_msg();
 	kill(g_data.pid_src, SIGUSR2);
 }
 
@@ -45,5 +47,4 @@ void	reset_msg(void)
 		exit_message("Malloc failure", EXIT_FAILURE);
 	g_data.msg_in_chars[0] = '\0';
 	g_data.end = 0;
-	g_data.pid_src = 0;
 }

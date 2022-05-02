@@ -6,7 +6,7 @@
 /*   By: mababou <mababou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 19:59:30 by mababou           #+#    #+#             */
-/*   Updated: 2022/05/02 20:10:45 by mababou          ###   ########.fr       */
+/*   Updated: 2022/05/02 20:31:09 by mababou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,13 @@ void	concat_char_in_msg(unsigned char c)
 	g_data.msg_in_chars = new_msg;
 }
 
+void	process_msg(void)
+{
+	ft_putstr_fd(g_data.msg_in_chars, 1);
+	ft_putstr_fd("\n", 1);
+	reset_msg();
+}
+
 void	add_char(void)
 {
 	int				c;
@@ -42,21 +49,11 @@ void	add_char(void)
 	i = -1;
 	while (++i < 8)
 		c += ((g_data.msg[i] - '0') * ft_pow(2, i));
-	if (c == 127)
-	{
-		g_data.end = 1;
-	}
-	else
+	if (c != 127)
 		concat_char_in_msg((unsigned char)c);
+	else
+		g_data.end = 1;
 	empty_str(g_data.msg, 9);
-}
-
-void	process_msg(void)
-{
-	ft_putstr_fd(g_data.msg_in_chars, 1);
-	ft_putstr_fd("\n", 1);
-	// kill(g_data.pid_src, SIGUSR1);
-	reset_msg();
 }
 
 int	main(void)
@@ -72,12 +69,6 @@ int	main(void)
 	sa.sa_sigaction = get_bit;
 	sigaction(SIGUSR1, &sa, 0);
 	sigaction(SIGUSR2, &sa, 0);
-	pause();
-	while (1)
-	{
-		pause();
-		if (g_data.end)
-			process_msg();
-	}
+	while (1) ({});
 	return (EXIT_SUCCESS);
 }

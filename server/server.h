@@ -6,7 +6,7 @@
 /*   By: mababou <mababou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 19:59:00 by mababou           #+#    #+#             */
-/*   Updated: 2022/05/02 19:43:59 by mababou          ###   ########.fr       */
+/*   Updated: 2022/05/02 20:24:26 by mababou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef struct s_data {
 // void	get_one(int code);
 void	get_bit(int signum, siginfo_t *info, void *context);
 void	reset_msg(void);
+void	process_msg(void);
 void	add_char(void);
 size_t	ft_strlen(char *str);
 void	ft_putnbr_fd(int n, int fd);

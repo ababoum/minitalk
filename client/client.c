@@ -6,7 +6,7 @@
 /*   By: mababou <mababou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 19:15:52 by mababou           #+#    #+#             */
-/*   Updated: 2022/05/02 20:14:30 by mababou          ###   ########.fr       */
+/*   Updated: 2022/05/02 20:30:01 by mababou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,11 @@ static void	send_char(unsigned char c, char *dest_pid)
 		c = c / 2;
 		i++;
 		// g_bit_confirmed = 0;
-		if (original_char == 127 && i == 7)
+		if (original_char == 127 && i == 8)
+		{
+			// pause();
 			final_message();
+		}
 	}
 	// printf("\n");
 }
@@ -98,6 +101,4 @@ int	main(int ac, char **av)
 		exit_error("Wrong parameters. Usage: ./client <PID> <MESSAGE>");
 	send_message(av[2], av[1]);
 	send_char(127, av[1]);
-	while (1)
-		pause();
 }
