@@ -12,8 +12,6 @@ CC			= @gcc
 CFLAGS		= -Wall -Wextra -Werror -g -fsanitize=address
 
 SRCS		= ./server.c \
-				./frees.c \
-				./memory_log.c \
 				./numbers.c \
 				sig_handler.c \
 				utils.c
