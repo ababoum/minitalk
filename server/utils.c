@@ -6,7 +6,7 @@
 /*   By: mababou <mababou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 20:00:27 by mababou           #+#    #+#             */
-/*   Updated: 2022/04/29 22:05:48 by mababou          ###   ########.fr       */
+/*   Updated: 2022/05/02 16:29:10 by mababou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,13 @@ size_t	ft_strlen(char *str)
 	return (i);
 }
 
-void	*ft_memset(void *ptr, int val, size_t count)
+void	empty_str(char *ptr, size_t count)
 {
 	size_t	i;
 
 	i = 0;
 	while (i < count)
-		((char *)ptr)[i++] = val;
-	return (ptr);
+		(ptr)[i++] = '\0';
 }
 
 void	*ft_memcpy_talk(char *dest, char *src)

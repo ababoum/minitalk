@@ -27,7 +27,7 @@ clean:
 		make -C ./server clean
 		make -C ./client clean
 
-fclean:	clean
+fclean:
 		make -C ./server fclean
 		make -C ./client fclean
 

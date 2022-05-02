@@ -6,7 +6,7 @@
 /*   By: mababou <mababou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 19:15:52 by mababou           #+#    #+#             */
-/*   Updated: 2022/04/29 22:21:24 by mababou          ###   ########.fr       */
+/*   Updated: 2022/05/02 16:35:32 by mababou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,25 +21,29 @@ void	reception_confirmation(int code)
 	exit(EXIT_SUCCESS);
 }
 
-static void	send_char(int c, char *dest_pid)
+static void	send_char(unsigned char c, char *dest_pid)
 {
 	int	i;
 
-	i = 8;
-	while (i)
+	i = 0;
+	printf("%i: ", c);
+	while (i < 8)
 	{
-		usleep(1);
+		usleep(5000);
 		if (c % 2 == 0)
 		{
+			printf("0");
 			kill(ft_atoi(dest_pid), SIGUSR1);
 		}
 		else
 		{
+			printf("1");
 			kill(ft_atoi(dest_pid), SIGUSR2);
 		}
 		c = c / 2;
-		i--;
+		i++;
 	}
+	printf("\n");
 }
 
 static int	send_pid(int pid, char *dest_pid)
@@ -56,37 +60,32 @@ static int	send_pid(int pid, char *dest_pid)
 	i = 0;
 	while (pid_str[i])
 		send_char(pid_str[i++], dest_pid);
+	free(pid_str);
 	return (0);
 }
 
 void	send_message(char *msg, char *dest_pid)
 {
-	int	c;
 	int	i;
 
 	i = 0;
 	while (msg[i])
 	{
-		c = msg[i];
-		if (c < 0)
-			send_char(1, dest_pid);
-		send_char(c, dest_pid);
+		send_char(msg[i], dest_pid);
 		i++;
 	}
 }
 
 int	main(int ac, char **av)
 {
-	int	empty;
-
 	if (ac != 3)
 		exit_error("Wrong parameters. Usage: ./client <PID> <MESSAGE>");
 	if (send_pid(getpid(), av[1]))
 		return (EXIT_FAILURE);
 	send_char(2, av[1]);
+	printf("\n");
 	send_message(av[2], av[1]);
 	send_char(127, av[1]);
 	signal(SIGUSR1, reception_confirmation);
-	while (1)
-		(void)empty;
+	pause();
 }

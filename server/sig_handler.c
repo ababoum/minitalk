@@ -6,49 +6,47 @@
 /*   By: mababou <mababou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 21:03:53 by mababou           #+#    #+#             */
-/*   Updated: 2022/04/29 22:13:41 by mababou          ###   ########.fr       */
+/*   Updated: 2022/05/02 16:32:58 by mababou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./server.h"
 
-void	get_zero(int code)
+extern t_data	g_data;
+
+void	get_bit(int signum)
 {
-	t_data	*data;
 	size_t	init_len;
 
-	(void)code;
-	data = get_data(0, 0);
-	init_len = ft_strlen(data->msg);
-	data->msg[init_len] = '0';
-	if (init_len == 7)
-		add_char(data);
-}
-
-void	get_one(int code)
-{
-	t_data	*data;
-	size_t	init_len;
-
-	(void)code;
-	data = get_data(0, 0);
-	init_len = ft_strlen(data->msg);
-	data->msg[init_len] = '1';
-	if (init_len == 7)
-		add_char(data);
-}
-
-t_data	*get_data(int code, t_data *input)
-{
-	static t_data	*data_ptr;
-
-	if (code == 0)
-		return (data_ptr);
+	init_len = ft_strlen(g_data.msg);
+	if (signum == SIGUSR1)
+	{
+		g_data.msg[init_len] = '0';
+	}
 	else
 	{
-		data_ptr = input;
-		input->mem_lst = 0;
-		reset_msg(input);
-		return (0);
+		g_data.msg[init_len] = '1';
 	}
+	if (init_len == 7)
+	{
+		printf("final character: %s, ", g_data.msg);
+		add_char();
+	}
+}
+
+void	init_data(void)
+{
+	g_data.mem_lst = 0;
+	reset_msg();
+}
+
+void	reset_msg(void)
+{
+	empty_str(g_data.msg, 9);
+	g_data.msg_in_chars = malloc_log(sizeof(char));
+	if (!g_data.msg_in_chars)
+		exit_message("Malloc failure", EXIT_FAILURE);
+	g_data.msg_in_chars[0] = 0;
+	g_data.end = 0;
+	g_data.pid_src = 0;
 }
