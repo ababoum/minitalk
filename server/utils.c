@@ -6,11 +6,13 @@
 /*   By: mababou <mababou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 20:00:27 by mababou           #+#    #+#             */
-/*   Updated: 2022/05/02 19:44:36 by mababou          ###   ########.fr       */
+/*   Updated: 2022/05/02 21:27:38 by mababou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./server.h"
+
+extern t_data	g_data;
 
 void	ft_putstr_fd(char *s, int fd)
 {
@@ -27,13 +29,21 @@ size_t	ft_strlen(char *str)
 	return (i);
 }
 
-void	empty_str(char *ptr, size_t count)
+void	empty_str(int code, size_t count)
 {
 	size_t	i;
 
 	i = 0;
-	while (i < count)
-		(ptr)[i++] = '\0';
+	if (code == 0)
+	{
+		while (i < count)
+			g_data.msg[i++] = '\0';
+	}
+	else
+	{
+		while (i < count)
+			g_data.msg_in_chars[i++] = '\0';
+	}
 }
 
 void	*ft_memcpy_talk(char *dest, char *src)

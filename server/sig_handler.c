@@ -6,7 +6,7 @@
 /*   By: mababou <mababou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 21:03:53 by mababou           #+#    #+#             */
-/*   Updated: 2022/05/02 20:23:54 by mababou          ###   ########.fr       */
+/*   Updated: 2022/05/02 21:28:03 by mababou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +35,15 @@ void	get_bit(int signum, siginfo_t *info, void *context)
 	}
 	if (g_data.end == 1)
 		process_msg();
-	kill(g_data.pid_src, SIGUSR2);
+	if (kill(g_data.pid_src, SIGUSR2))
+	{
+		exit_message("Cannot send a signal to client", EXIT_FAILURE);
+	}
 }
 
 void	reset_msg(void)
 {
-	empty_str(g_data.msg, 9);
-	free(g_data.msg_in_chars);
-	g_data.msg_in_chars = malloc(sizeof(char));
-	if (!g_data.msg_in_chars)
-		exit_message("Malloc failure", EXIT_FAILURE);
-	g_data.msg_in_chars[0] = '\0';
+	empty_str(0, 9);
+	empty_str(1, 1);
 	g_data.end = 0;
 }

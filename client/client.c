@@ -6,7 +6,7 @@
 /*   By: mababou <mababou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 19:15:52 by mababou           #+#    #+#             */
-/*   Updated: 2022/05/02 20:30:01 by mababou          ###   ########.fr       */
+/*   Updated: 2022/05/02 21:41:45 by mababou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,60 +26,36 @@ void	reception_confirmation(int signum)
 {
 	if (signum == SIGUSR2)
 		(void)signum;
-	// g_bit_confirmed = 1;
 }
 
 static void	send_char(unsigned char c, char *dest_pid)
 {
 	int				i;
 	unsigned char	original_char;
-	// int	empty;
 
 	i = 0;
 	original_char = c;
-	// printf("%i: ", c);
 	while (i < 8)
 	{
 		if (c % 2 == 0)
 		{
-			// printf("0");
-			kill(ft_atoi(dest_pid), SIGUSR1);
+			if (kill(ft_atoi(dest_pid), SIGUSR1))
+				exit_error("Fatal error");
 		}
 		else
 		{
-			// printf("1");
-			kill(ft_atoi(dest_pid), SIGUSR2);
+			if (kill(ft_atoi(dest_pid), SIGUSR2))
+				exit_error("Fatal error");
 		}
 		pause();
 		c = c / 2;
 		i++;
-		// g_bit_confirmed = 0;
 		if (original_char == 127 && i == 8)
 		{
-			// pause();
 			final_message();
 		}
 	}
-	// printf("\n");
 }
-
-// static int	send_pid(int pid, char *dest_pid)
-// {
-// 	char	*pid_str;
-// 	int		i;
-
-// 	pid_str = ft_itoa(pid);
-// 	if (!pid_str)
-// 	{
-// 		ft_putstr(2, "Malloc failure\n");
-// 		return (1);
-// 	}
-// 	i = 0;
-// 	while (pid_str[i])
-// 		send_char(pid_str[i++], dest_pid);
-// 	free(pid_str);
-// 	return (0);
-// }
 
 void	send_message(char *msg, char *dest_pid)
 {
@@ -95,7 +71,6 @@ void	send_message(char *msg, char *dest_pid)
 
 int	main(int ac, char **av)
 {
-	// g_bit_confirmed = 0;
 	signal(SIGUSR2, reception_confirmation);
 	if (ac != 3)
 		exit_error("Wrong parameters. Usage: ./client <PID> <MESSAGE>");

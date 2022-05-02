@@ -9,7 +9,7 @@ F_BLUE		= \033[34m
 
 CC			= @gcc
 
-CFLAGS		= -Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS		= -Wall -Wextra -Werror -g
 
 SRCS		= ./server.c \
 				./numbers.c \

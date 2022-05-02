@@ -6,7 +6,7 @@
 /*   By: mababou <mababou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 19:59:30 by mababou           #+#    #+#             */
-/*   Updated: 2022/05/02 20:31:09 by mababou          ###   ########.fr       */
+/*   Updated: 2022/05/02 21:23:18 by mababou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,11 @@ t_data	g_data;
 
 void	concat_char_in_msg(unsigned char c)
 {
-	char	*new_msg;
 	size_t	init_len;
 
 	init_len = ft_strlen(g_data.msg_in_chars);
-	new_msg = malloc(2 + init_len);
-	if (!new_msg)
-	{
-		free(g_data.msg_in_chars);
-		exit_message("Malloc failure", EXIT_FAILURE);
-	}
-	ft_memcpy_talk(new_msg, g_data.msg_in_chars);
-	new_msg[init_len] = c;
-	new_msg[init_len + 1] = '\0';
-	free(g_data.msg_in_chars);
-	g_data.msg_in_chars = new_msg;
+	g_data.msg_in_chars[init_len] = c;
+	g_data.msg_in_chars[init_len + 1] = '\0';
 }
 
 void	process_msg(void)
@@ -60,6 +50,8 @@ int	main(void)
 {
 	struct sigaction	sa;
 
+	g_data.msg_in_chars = calloc(INT_MAX, 1);
+	g_data.msg[0] = 0;
 	reset_msg();
 	ft_putstr_fd(BLUE_TXT, 1);
 	ft_putnbr_fd(getpid(), 1);
