@@ -6,7 +6,7 @@
 /*   By: mababou <mababou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 20:00:27 by mababou           #+#    #+#             */
-/*   Updated: 2022/05/02 21:27:38 by mababou          ###   ########.fr       */
+/*   Updated: 2022/05/03 17:41:08 by mababou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ extern t_data	g_data;
 
 void	ft_putstr_fd(char *s, int fd)
 {
-	write(fd, s, ft_strlen(s));
+	if (write(fd, s, ft_strlen(s)) == -1)
+		exit_message("Fatal error", EXIT_FAILURE);
 }
 
 size_t	ft_strlen(char *str)
@@ -27,23 +28,6 @@ size_t	ft_strlen(char *str)
 	while (str[i])
 		i++;
 	return (i);
-}
-
-void	empty_str(int code, size_t count)
-{
-	size_t	i;
-
-	i = 0;
-	if (code == 0)
-	{
-		while (i < count)
-			g_data.msg[i++] = '\0';
-	}
-	else
-	{
-		while (i < count)
-			g_data.msg_in_chars[i++] = '\0';
-	}
 }
 
 void	*ft_memcpy_talk(char *dest, char *src)

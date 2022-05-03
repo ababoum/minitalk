@@ -9,11 +9,10 @@ F_BLUE		= \033[34m
 
 CC			= @gcc
 
-CFLAGS		= -Wall -Wextra -Werror -g
+CFLAGS		= -Wall -Wextra -Werror -g -O3
 
 SRCS		= ./server.c \
 				./numbers.c \
-				sig_handler.c \
 				utils.c
 
 INCLUDES	= ./server.h
