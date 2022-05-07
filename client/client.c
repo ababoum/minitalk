@@ -6,13 +6,11 @@
 /*   By: mababou <mababou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 19:15:52 by mababou           #+#    #+#             */
-/*   Updated: 2022/05/03 17:38:14 by mababou          ###   ########.fr       */
+/*   Updated: 2022/05/07 15:40:19 by mababou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./client.h"
-
-// int	g_bit_confirmed;
 
 static void	final_message(void)
 {
@@ -22,8 +20,10 @@ static void	final_message(void)
 	exit(EXIT_SUCCESS);
 }
 
-static void	reception_confirmation(int signum)
+static void	reception_confirmation(int signum, siginfo_t *info, void *context)
 {
+	(void)context;
+	(void)info;
 	if (signum == SIGUSR1)
 		(void)signum;
 }
@@ -71,7 +71,15 @@ static void	send_message(char *msg, char *dest_pid)
 
 int	main(int ac, char **av)
 {
-	signal(SIGUSR1, reception_confirmation);
+	struct sigaction	sa;
+	sigset_t			ss;
+
+	sigemptyset(&ss);
+	sa.sa_mask = ss;
+	sigaddset(&ss, SIGUSR1);
+	sa.sa_sigaction = reception_confirmation;
+	sa.sa_flags = SA_SIGINFO;
+	sigaction(SIGUSR1, &sa, 0);
 	if (ac != 3)
 	{
 		ft_putstr(2, RED_TXT);

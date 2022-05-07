@@ -6,7 +6,7 @@
 /*   By: mababou <mababou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 19:59:30 by mababou           #+#    #+#             */
-/*   Updated: 2022/05/03 17:39:33 by mababou          ###   ########.fr       */
+/*   Updated: 2022/05/07 15:52:33 by mababou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,9 @@ static unsigned char	byte_to_char(const char *msg)
 
 static void	get_bit(int signum, siginfo_t *info, void *context)
 {
-	static char	byte[9];
-	static int	pos_byte = 0;
-	static char	msg[1024];
-	static int	pos_msg = 0;
+	static char		byte[9];
+	static size_t	pos_byte = 0;
+	static t_char	*msg = 0;
 
 	(void)context;
 	if (signum == SIGUSR1)
@@ -39,17 +38,16 @@ static void	get_bit(int signum, siginfo_t *info, void *context)
 	if (pos_byte == 8)
 	{
 		pos_byte = 0;
-		msg[pos_msg] = byte_to_char(byte);
-		msg[pos_msg + 1] = '\0';
-		if (msg[pos_msg++] == END_CHAR)
+		if (byte_to_char(byte) == END_CHAR)
 		{
-			ft_putstr_fd(msg, 1);
-			ft_putstr_fd("\n", 1);
-			pos_msg = 0;
-			msg[pos_msg] = '\0';
+			ft_lstiter(msg, ft_putchar);
+			ft_putchar('\n');
+			ft_lstclear(&msg);
 		}
+		else
+			ft_lstadd_back(&msg, ft_lstnew(byte_to_char(byte)));
 	}
-	if (!usleep(50) && kill(info->si_pid, SIGUSR1))
+	if (!usleep(100) && kill(info->si_pid, SIGUSR1))
 		exit_message("Cannot send a signal to client", EXIT_FAILURE);
 }
 

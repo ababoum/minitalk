@@ -11,11 +11,12 @@ CC			= @gcc
 
 CFLAGS		= -Wall -Wextra -Werror -g -O3
 
-SRCS		= ./server.c \
-				./numbers.c \
-				utils.c
+SRCS		= server.c \
+				numbers.c \
+				utils.c \
+				char_lst.c
 
-INCLUDES	= ./server.h
+INCLUDES	= server.h
 
 OBJS		= $(SRCS:.c=.o)
 
